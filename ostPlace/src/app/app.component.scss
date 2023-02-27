@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,200;10..100,400&display=swap');//KONTENER OBEJMUJACY CAŁĄ STRONĘ
+@import '../scss/variables.scss';
+
+#whole{
+    height: auto;
+    background: rgb(0,0,0);
+    background: $contentBackground;
+    position: relative;
+    font-family: 'Imbue', serif;
+
+}
+

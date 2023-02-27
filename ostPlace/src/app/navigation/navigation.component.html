@@ -1,0 +1,70 @@
+
+    <!-- NAVBAR FOR DESKTOP -->
+    <nav class="nav sticky-top p-0" id="desktopNav">
+         <!-- NAVIGATION BRAND -->
+    <div class="col-12 m-0 " id="brand" (click)="changeDir('home')"><span style='color: #143E00;'>OST</span>Place</div>
+      <div id="userInfo">
+        <div class="row m-0 p-0">
+          <div class="col-12 col-lg-8 mx-auto" id="avatar"><fa-icon [icon]='userIcon'></fa-icon></div>
+          <div class="col-12" id="username">Wilk</div>
+        </div>
+      </div>
+      <ul class="navbar-nav mr-auto d-flex flex-column px-4 px-sm-2 ">
+        <li class="nav-item active">
+          <b class="nav-link" (click)="changeDir('notifications')">
+            <fa-icon [icon]='plus'></fa-icon>Notifications
+          </b>
+        </li>
+        <li class="nav-item" (click)="changeDir('myOST')">
+          <b class="nav-link"><fa-icon [icon]='disc'></fa-icon>OST</b>
+        </li>
+        <li class="nav-item" (click)="changeDir('basket')">
+          <b class="nav-link"><fa-icon [icon]='basket'></fa-icon>Basket</b>
+        </li>
+        <li class="nav-item" (click)="changeDir('addSong')">
+          <b class="nav-link">
+              <fa-icon [icon]='plus'></fa-icon>add Song
+          </b>
+        </li>
+        <li class="nav-item" (click)="changeDir('settings')">
+          <b class="nav-link"><fa-icon [icon]='cog'></fa-icon>Settings</b>
+        </li>
+      </ul>
+      <button class="btn btn-danger mt-auto mb-1 w-100" id="logOutBtn" (click)="logOut()"> Log out </button>
+      
+    </nav>
+
+
+     <!-- COLLAPSED NAVBAR - FOR MOBILE -->
+    <div class="navbar-collapse m-0 p-1" id="collapsedNavbar">
+        <div class="col-12 sticky-top" id="brand"><span style='color: #143E00;'>OST</span>Place</div>
+      <div class="row m-0 p-0">
+        <div id="userInfo">
+          <div class="row m-0 p-0">
+            <div class="col-8 mx-auto" id="avatar"><fa-icon [icon]='userIcon'></fa-icon></div>
+            <div class="col-12 p-0" id="username">Wilk</div>
+          </div>
+        </div>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item active ">
+            <b class="nav-link" (click)="changeDir('notifications')">
+              <fa-icon [icon]='plus'></fa-icon>
+            </b>
+          </li>
+          <li class="nav-item" (click)="changeDir('myOST')">
+            <b class="nav-link"><fa-icon [icon]='disc'></fa-icon></b>
+          </li>
+          
+          <li class="nav-item" (click)="changeDir('addSong')">
+            <b class="nav-link">
+                <fa-icon [icon]='plus'></fa-icon>
+            </b>
+          </li>
+          <li class="nav-item" (click)="changeDir('settings')">
+            <b class="nav-link"><fa-icon [icon]='cog'></fa-icon></b>
+          </li>
+        </ul>
+      </div>
+      
+      <button class="btn btn-danger mt-auto mb-1" id="logOutBtn" (click)="logOut()"> <fa-icon [icon]="logout"></fa-icon> Log out </button>
+    </div>

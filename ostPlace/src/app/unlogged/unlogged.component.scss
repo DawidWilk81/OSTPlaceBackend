@@ -1,0 +1,325 @@
+// NAVBAR
+@import '../../scss/_variables.scss';
+@import '../../scss/_placeholders.scss';
+@import '../../scss/_mixins.scss';
+
+#whole{
+    height: $pageHeight;
+    background: rgb(0,0,0);
+    background: $contentBackground;
+    position: relative;
+    font-family: 'Imbue', serif;
+    #musicPlayer{
+        @extend %musicPlayer;
+        #audioBox{
+            width: 100%;
+            background-color: $contentBackground;
+        }
+    }
+}
+
+#unloggedRow{
+    height: 100%;
+    min-width: 300px;
+
+    #sideBarContainer{
+        background-color: $navbarColor;
+        height: $pageHeight;
+    
+
+        @media only screen  and (min-width:0){
+            font-size: 6vw;
+        }
+        @media only screen  and (min-width:360px){
+            font-size: 4vw;
+        }
+        @media only screen  and (min-width:760px){
+            font-size: 4vw;
+        }
+        // border:inset 1px solid #f9f9f9f9;
+        nav{
+            height: 100%;
+            min-width: 120px;
+            position: relative;
+            -webkit-box-shadow: inset -20px 1px 13px -15px rgba(20, 20, 21, 0.88);
+            -moz-box-shadow: inset -20px 1px 13px -15px rgba(20, 20, 21, 0.88);
+            box-shadow: inset -20px 1px 13px -15px rgba(20, 20, 21, 0.88);
+            .row{
+                height: 100vh;
+                position: fixed;
+
+                #brand{
+                    height: 20%;
+                    text-align: center;
+                }
+                #naviButtons{
+                    height: 10%;
+                    width: 70%;
+                    .btn{
+                        width: 98%;
+                        height: 3.5vh;
+                        border-radius: 50px;
+                    }
+                }
+            }
+           
+        }
+    }
+
+    #contentContainer{
+        height: $pageHeight;
+        #heroPage{
+            height: 50vh;
+            background-image: url('../../assets/bgPhoto.jpg');
+            background-size: 100vw 100vh;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            @extend %centerFlex;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid #0808084f;
+            
+
+            #heroInfo{
+                height: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                h1{
+                    text-align: center;
+                    @include respectFont(5vw, 5vw, 6vw, 5vw, 3vw);
+                    font-size: 3vw;
+                }
+                .btn{
+                    border-radius: 50px;
+                    width: 150px;
+                }
+            }
+
+        }
+
+        #ContentPage{
+            height: 250vh;
+                #topTab{
+                    height: 11%;
+                    backdrop-filter: blur( 5px );
+                    -webkit-backdrop-filter: blur( 5px );
+                    background-color: rgba(24, 24, 24, 1);
+                    background-image: linear-gradient(165deg, rgba(24, 24, 24, 1) 22%, rgba(102, 102, 102, 1) 100%);
+                    font-size: 1.4em;
+                    border-bottom: 2px solid rgba(0, 0, 0, 0.301);
+                        #filter{
+                            height: 50%;
+                            font-size: 1.5vw;
+                            @media only screen and(max-width:600px){
+                                height: 30%;
+                            }
+        
+                            p{  
+                                @media only screen  and (min-width:0){
+                                    font-size: 7vw;
+                                }
+                                @media only screen  and (min-width:360px){
+                                    font-size: 5vw;
+                                }
+                                @media only screen  and (min-width:760px){
+                                    font-size: 2vw;
+                                }
+                            }
+        
+                            #searchBox{
+                                width: 100%;
+                                height: 1.5em;
+                                border-radius: 25px;
+                                text-align: center;
+                            }
+                        }
+    
+                        #tagsBox{
+                            height: 50%;
+                            overflow-y: auto;
+                            @media only screen and(max-width:600px){
+                                height: 70%;
+                            }
+                        }
+            }
+
+            #musicBox{
+                height: 89%;
+                .row{
+                    height: 100%;
+                    .songContainer{
+                        background-color: $OSTBackground;
+                        border-radius: 20px;
+                        height: 15%;
+                        .row{
+                            height: 100%;
+                            .musicIMG{
+                                height: 80%;
+                                position: relative;
+                                    img{
+                                        width: 100%;
+                                        height: 100%;
+                                        border-radius: 15px;
+                                        &:hover{
+                                            filter:blur(2px);
+                                            cursor: pointer;
+                                        }
+                                    }
+                                    .imgHover{
+                                        position: absolute;
+                                        bottom:1%;
+                                        right:1%;
+                                    }
+                            }
+    
+                            .musicInfo{
+                                height: 80%;
+                                .price{
+                                        @include respectFont(4vw, 3.4vw, 2vw, 2vw, 1.5vw);
+                                }
+                                .title{
+                                    overflow:hidden;
+                                    height: 25%;
+                                    color:#56b144;
+                                    @include respectFont(4vw, 3vw, 2vw, 1.5vw, 1.4vw);
+                                    @media only screen and(min-width:2500px){
+                                        font-size: 1vw;
+                                    }
+                                }
+                                .desc{
+                                    overflow-x:hidden;
+                                    height: 55%;
+                                    @include respectFont(2vw, 1.5vw, 1.5vw, 0.8vw, 1vw);
+                                    @media only screen and(min-width:2500px){
+                                        font-size: 0.5vw;;
+                                    }
+                                }
+                                .info{
+                                    height: 20%;
+                                    z-index: 20;
+                                    margin:0;
+                                    padding:0;   
+                                    .row{
+                                        height: 100%;
+                                        margin:0;
+                                        padding:0;
+                                        .author{
+                                            @include respectFont(3.5vw, 2vw, 2vw, 1.2vw, 1.1vw);
+                                        }
+    
+                                        .buy{
+                                            border-left: 2px solid beige;
+                                            border-top: 2px solid beige;
+                                            border-bottom: 2px solid beige;
+    
+                                            transition: 0.5s;
+                                            @extend %centerFlex;
+                                            @media only screen and(min-width:0){
+                                                font-size: 3vw;
+                                                line-height: 5vw;
+                                            }
+                                            @media only screen and(min-width:360px){
+                                                font-size: 2.5vw;
+                                                line-height: 5vw;
+                                            }
+                                            @media only screen and(min-width:760px){
+                                                font-size: 1.5vw;
+                                                line-height: 3.5vw;
+                                            }
+                                            @media only screen and(min-width:960px){
+                                                font-size:2vw;
+                                                line-height: 2.5vw;
+                                            }
+                                            @media only screen and(min-width:1300px){
+                                                font-size:1.3vw;
+                                                line-height: 2vw;
+                                            }
+                                            &:hover{
+                                                cursor: pointer;
+                                                border-radius: 10px 0 0 10px;
+                                                border-left: 2px solid #1a5201;
+                                                border-top: 2px solid beige;
+                                                border-bottom: 2px solid beige;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                             .tags{
+                                height: 25%;
+                                font-size:1vw;
+                                overflow-y: hidden; 
+                                width: 100%;
+                                
+                                .tagList > li{
+                                    list-style-type: none;
+                                    background-color: $tagsColor;
+                                    height: 1.6em;
+                                    width: 20px;
+                                    margin:5px;
+                                    border-radius: 20px;
+                                    border:1px solid #f9f9f94b;
+                                    float: left;
+                                    @extend %centerFlex;
+                                    // background-color: rgba(15, 14, 14, 1);
+                                    // background-image: radial-gradient(circle, rgba(15, 14, 14, 1) 9%, rgba(28, 34, 28, 1) 93%);
+                                    
+                                    @media only screen and(min-width:0){
+                                        height: 2em;
+                                        width: 25%;
+                                        font-size:3vw;
+                                    }
+                                    @media only screen and(min-width:360px){
+                                        height: 1.3em;
+                                        width: 20%;
+                                        font-size:2em;
+                                    }
+                                    @media only screen and(min-width:760px){
+                                        height: 2vw;
+                                        width: 25%;
+                                        font-size:1.6vw;
+                                    }
+                                    @media only screen and(min-width:960px){
+                                        font-size:1.3vw;
+                                        height: 1.5em;
+                                    }
+                                    @media only screen and(min-width:1280px){
+                                        height: 1.5vw;
+                                        width: 20%;
+                                        font-size:1.2vw;
+                                    }
+                                    @media only screen and(min-width:2048px){
+                                        height: 1vw;
+                                        width: 20%;
+                                        font-size:0.8vw;
+                                    }
+    
+                                    &:hover{
+                                        cursor: pointer;
+                                        background-color: $tagsColorHover;
+                                        opacity: 0.5;
+                                        position: relative;
+                                        top:-1px;
+                                        opacity: 0.9;
+                                    }
+                                }
+                            }
+                        }  
+                    }
+                
+                }
+
+            }
+        }
+    }
+    
+}
+
+.top{
+    height: 75%;
+}

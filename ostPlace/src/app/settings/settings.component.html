@@ -1,0 +1,39 @@
+<div class="container-fluid m-0 p-0" id="settingsWhole">
+    <div class="row m-0">
+        <div class="col-2 col-sm-2 col-md-3 col-lg-2 col-xl-2" id="sideBarContainer">
+            <app-navigation></app-navigation>
+        </div>
+        <div class="col-10 col-sm-10 col-md-9 col-lg-10 col-xl-10 p-0" id="settingsContainer">
+
+            <div id="settings" class="pt-2 px-lg-3">
+                    <div class=" mx-auto d-flex flex-column" id="avatar">
+                        <div id="avatarCircle"><fa-icon [icon]="user"></fa-icon></div>
+                        <label for="avatarSendButton" class="text-center m-0">Change avatar</label>
+                        <input type="file" alt='Change avatar' hidden id='avatarSendButton'/>
+                    </div>
+              
+                <!-- change password/ email/ avatar/ opis? -->
+                <form class="p-1 pr-3 pt-lg-5">
+                    <div class="form-group">
+                      <label for="InputPassowrd">Password</label><fa-icon class="ml-3" [icon]="change" (click)='showPassword()'></fa-icon>
+                      <input *ngIf="changePassword" type="password" class="form-control InputPassword mb-1" placeholder="My old Password">
+                    </div>
+                    <div class="form-group">
+                      <label *ngIf="changePassword" for="InputPassowrd">New password</label>
+                      <input *ngIf="changePassword" type="password" class="form-control InputPassword" placeholder="My new password">
+                    </div>
+                    <div class="form-group">
+                      <label *ngIf="changePassword" for="InputPassowrd">Confirm password</label>
+                      <input *ngIf="changePassword" type="password" class="form-control InputPassword" placeholder="Confirm password">
+                    </div>
+                    <button *ngIf="changePassword" type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                    <hr>
+                    <div class="form-group">
+                      <label for="emailInput">EMAIL@O2.PL</label><fa-icon class="ml-2" [icon]="change" (click)='showEmail()'></fa-icon><br>
+                      <button  *ngIf='changeEmail' class="btn btn-primary" id="resetEmail">Reset my email address</button>
+                    </div>
+                  </form>
+           </div>
+        </div>
+    </div>
+</div>

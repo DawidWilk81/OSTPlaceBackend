@@ -1,0 +1,93 @@
+    <div class="container-fluid m-0 p-0" id="addSongWhole" >
+    <!-- Choose tags Container -->
+    <div id="tagList" class="p-3" *ngIf="getTags">
+        <fa-icon [icon]="xmark" (click)="hideTags()"></fa-icon>
+            <div class="col-12" id="searchTag">
+                <input type="text" name="tagInput" [(ngModel)]="searchTagsInputValue" (change)="filterTags($event)">
+            </div>
+            <div class="col-12 p-2" id="tagsContainer">
+                <ul>
+                    <li *ngFor="let x of FilteredTags; index as i" (click)="clickTag(i)">{{FilteredTags[i]['name']}}</li>
+                </ul>
+            </div>
+            <div class="col-12 p-2" id="choosed">
+                Choosed tags:
+                <ul class="p-0">
+                    <li class='mt-2' *ngFor="let tag of choosedTags; index as i" (click)="clickChoosedTag(i)"> {{choosedTags[i]}} </li>
+                </ul>
+            </div>
+            <div id="buttonPlace">
+                <button class="btn btn-primary mt-auto mx-auto" (click)="ConfirmTags()">Confirm</button>
+            </div>
+
+    </div>
+    <!-- FORM CONTAINER -->
+    
+        <div class="row m-0 p-0">
+            <div class="col-2 col-sm-2 col-md-3 col-lg-2 col-xl-2 p-0" id="sideBarContainer">
+                <app-navigation></app-navigation>
+            </div>
+            <!-- MAIN CONTAINER -->
+            <div class="col-10 col-sm-10 col-md-9 col-lg-10 col-xl-10 p-0" id="addSongContainer">
+                <!-- ADD SONG FORM  -->
+
+                <form id="addSong" class="p-3" #addSongForm = "ngForm" (ngSubmit)="sendSong(addSongForm)">
+
+                    <b class="ShowSize1" *ngIf="imgWidth">Img Resolution: {{imgWidth}} X {{imgHeight}}</b>
+                    <div class="form-group p-1" id="cover">
+                        <div id="addCover">
+                            <label for="coverInput">Cover for OST</label>
+                            <input type="file"  class="form-control" id="coverInput" required minlength="1" maxlength="64"
+                            name="cover" (change)="onImageChange($event)">
+                            <small>only *jpg *png</small>
+                            <!-- <small>Max resolution: 108</small> -->
+                            <p *ngIf="coverError" style="color:red;">Added file is invalid</p>
+                            <p *ngIf="coverSizeError" style="color:red;">Added file is too big</p>
+                            <b class="ShowSize" *ngIf="songSize"><fa-icon [icon]='checkMark' ></fa-icon>Song weight less than 10MB. </b>
+                        </div>
+                        <div id="showCover">
+                            <i *ngIf="!imageUrl"><span style='color: #143E00;'>OST</span>Place</i>
+                            <img [src]='imageUrl' *ngIf='imageUrl'/>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group mb-5" id="title">
+                        <label for="titleInput">Title</label>
+                        <input type="text"  class="form-control" id="titleInput" required
+                        [(ngModel)]="song.title" name="title" placeholder="Ex: Best beat made for RPG games" #title="ngModel"
+                        [ngClass]="{'invalidInput':title.invalid && title.touched}">
+                        <small style="color:#c2cfc3b2">Max length 64 characters</small>
+                    </div>
+
+                    <div class="form-group " id="ost">
+                        <label for="ostInput" class="mt-5">Add OST</label>
+                        <input type="file"  class="form-control" id="ostInput" required 
+                        (change)="onSongChange($event)" name="ost">
+                        <p *ngIf="ostError" style="color:red;">Added file is not mp3 nor wav</p>
+                        <small>Only *.mps or *.vaw</small>
+
+                    </div>
+
+                    <div class="form-group d-flex flex-column" id="tags">
+                        <p (click)="showTags()">Add some tags *click</p>
+                    </div>
+
+                    <div class="form-group" id="price">
+                        <label for="priceInput">Choose price for OST</label>
+                        <input type="number"  class="form-control" id="priceInput" required
+                        [(ngModel)]="song.price" name="price" placeholder="1">
+                    </div>
+
+                    <div class="form-group mt-5" id="desc">
+                        <label for="descArea">Description(Max. 124 characters)</label>
+                        <textarea required type="text"  class="form-control" id="descArea" minlength="5" maxlength="124"
+                        [(ngModel)]="song.desc" name="alterEgo" placeholder="OST made for your game"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-4 w-25" [disabled]="!addSongForm.form.valid || (ostError || coverError || coverSizeError)">SEND</button>
+                </form> 
+            </div>
+        </div>
+
+</div>

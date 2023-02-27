@@ -1,0 +1,119 @@
+@import '../../scss/_variables.scss';
+@import '../../scss/_placeholders.scss';
+@import '../../scss/_mixins.scss';
+
+#basketWhole{
+    background: rgb(0,0,0);
+    background: $contentBackground;
+    height: 100vh;
+    position: relative;
+    font-family: 'Imbue', serif;
+    min-width: 400px;
+
+  #musicPlayer{
+        @extend %musicPlayer;
+        #audioBox{
+            width: 100%;
+            background-color: $contentBackground;
+        }
+    }
+
+    .row{
+        @extend %MaxSize;
+
+        //navigationBar
+        #sideBarContainer{
+            padding: 0;
+            height: 100vh;
+            -webkit-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            -moz-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+        }
+        // RIGHT CONTENT 
+        #basketContainer{
+            min-height: 100vh;
+            min-width: 100px;
+            position: relative;
+            -webkit-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            -moz-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+          ul{
+            list-style-type: none;
+            width: 100%;
+            height: 90%;
+            padding:20px;
+            // background-color: blue;
+            overflow-y: auto;
+            li{
+                width: 100%;
+                height: 10%;
+                border:2px solid rgba(15, 15, 15, 0.253);
+                .OSTcover{
+                    height: 100%;
+                    img{
+                        @extend %MaxSize;
+                        &:hover{
+                            cursor:pointer;
+                            filter:blur(2px);
+                            border:1.5px solid red;
+                        }
+                    }
+                }
+                .OSTinfo{
+                    @include respectFont(2.4vw, 2vw, 1.7vw, 2vw, 1.5vw);
+                    .row{
+                        .title{
+                            @extend %centerFlex;
+                        }
+                        .tags{
+                            ul{
+                                list-style-type: none;
+                                height: 100%;
+                                display:flex;
+                                flex-direction: row;
+                                align-items: center;
+                                li{
+                                    width: 25%;
+                                    background-color: $tagsColor;
+                                    margin-left:5px;
+                                    border-radius: 5px;
+                                    height: 60%;
+                                    float: left;
+                                    padding:5px;
+                                    border-radius: 15px;
+                                    border:1px solid #0e0e0e3d;
+                                    transition: 0.2s;
+                                    float: left;
+                                    padding:5px;
+                                    @extend %centerFlex;
+                                    -webkit-box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                    -moz-box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                    box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                        &:hover{
+                                            background-color: $tagsColorHover;
+                                            -webkit-box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                            -moz-box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                            box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                }
+                .delete{
+                    @include respectFont(3vw, 2vw, 2vw, 1.5vw, 1.2vw);
+                    @extend %centerFlex;
+                    fa-icon:hover{
+                        cursor: pointer;
+                        color:#a5a5a5f9;
+                    }
+                }
+            }
+            button{
+                position: absolute;
+                bottom:20px;
+            }
+          }
+        }
+    }
+}                        

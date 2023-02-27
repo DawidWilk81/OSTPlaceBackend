@@ -1,0 +1,41 @@
+<div class="container-fluid m-0 p-0" id="basketWhole">
+    <div id="musicPlayer" #musicPlayer>
+        <p #title></p>
+        <audio controls id="audioBox" #audioBox [hidden]="!isPlaying">
+          <source type="audio/mpeg" id='audio' #audio/>
+          <source type="audio/wav" id='audioWav' #audio/>
+        </audio>
+      </div>
+    <div class="row m-0">
+        <div class="col-2 col-sm-2 col-md-3 col-lg-2 col-xl-2" id="sideBarContainer">
+            <app-navigation></app-navigation>
+        </div>
+        <div class="col-10 col-sm-10 col-md-9 col-lg-10 col-xl-10 p-3" id="basketContainer">
+            <ul>
+                <li class="p-1 mt-1" *ngFor = 'let ost of MyBasket; index as i'>
+                    <div class="row m-0 p-0 h-100 w-100">
+                        <div class="col-2 col-sm-2 col-lg-1 OSTcover p-0">
+                            <img [src]="ost.songOBJ.cover" alt='bought OST cover' (click)='playAudio(ost.songOBJ.ost, ost.songOBJ.title)'/>
+                        </div>
+                        <div class="col-10 col-lg-11 OSTinfo ">
+                            <div class="row w-100 h-100 m-0 p-0">
+                                <div class="col-2 p-0 title ">{{ost.songOBJ.title}}</div>
+                                <div class="col-9 tags ">
+                                    <ul class="p-0 m-0">
+                                        <li *ngFor = 'let x of ost.songOBJ.tags'>{{tagList[x]['name']}}</li>
+                                        <li *ngFor = 'let x of ost.songOBJ.tags'>{{tagList[x]['name']}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-1 col-lg-1 delete p-1 ml-auto"><fa-icon [icon]='xSign' (click)="delItem(ost.id)"></fa-icon></div>
+                            </div>
+                           
+                        </div>
+                     
+                    </div>
+                </li>
+                <button class="btn btn-primary w-25" id="buyButton" (click)="stripeCode()">Buy items</button>
+            </ul>
+
+        </div>
+    </div>
+</div>

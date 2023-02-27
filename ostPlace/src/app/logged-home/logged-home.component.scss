@@ -1,0 +1,497 @@
+// NAVBAR
+@import '../../scss/_variables.scss';
+@import '../../scss/_placeholders.scss';
+@import '../../scss/_mixins.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,300&display=swap');
+#whole{
+    font-size:1.2vw;
+    height: $pageHeight;
+    background: rgb(0,0,0);
+    background: $contentBackground;
+    position: relative;
+    font-family: 'Imbue', serif;
+    min-width: 350px;
+    color:#f9f9f9ee;
+
+    #checkInfo{
+        width: 50%;
+        height:50vh;
+        position: fixed;
+        top:20%;
+        right:25%;
+        z-index: 200;
+        min-width: 230px;
+        background-color: #202020;
+        border:2px solid rgba(37, 37, 37, 0.534);
+        @include respectFont(1.5vw, 1.5vw, 2vw, 1.8vw, 1.4vw);
+        @media only screen and(max-width:958px){
+            right: 3%;
+        }
+        @media only screen and(max-width:1900px){
+            right: 20%;
+        }
+
+        #OSTImage{
+            height: 50%;
+            img{
+                @extend %MaxSize;
+                border-radius: 15px;
+            }
+        }
+        #OSTInfo{
+            position: relative;
+            height: 50%;
+            -webkit-box-shadow: inset -13px -12px 42px -26px rgba(85, 85, 85, 0.438), inset 8px 11px 42px -26px rgba(7, 7, 7, 1);
+            -moz-box-shadow: inset -13px -12px 42px -26px rgba(85, 85, 85, 0.527), inset 8px 11px 42px -26px rgba(7, 7, 7, 1);
+            box-shadow: inset -13px -12px 42px -26px rgba(85, 85, 85, 0.5), inset 8px 11px 42px -26px rgba(7, 7, 7, 1);
+            // background-color: red;
+            #date{
+                position: absolute;
+                bottom:0;
+                right:10px;
+            }
+        }
+        // OSTCHECKING DESCRIPTION
+        #OSTDesc{
+            height: 32%;
+            #desc{
+                height: 60%;
+            }
+            #tags{
+                height: 40%;
+                ul{
+                    list-style-type: none;
+                    li{
+                        list-style-type: none;
+                        background-color: $tagsColor;
+                        height: 1.6em;
+                        width: 20px;
+                        margin:5px;
+                        border-radius: 20px;
+                        border:1px solid #f9f9f94b;
+                        float: left;
+                        @extend %centerFlex;
+                        // background-color: rgba(15, 14, 14, 1);
+                        // background-image: radial-gradient(circle, rgba(15, 14, 14, 1) 9%, rgba(28, 34, 28, 1) 93%);
+                        
+                        @media only screen and(min-width:0){
+                            height: 2em;
+                            width: 30%;
+                            font-size:3vw;
+                        }
+                        @media only screen and(min-width:360px){
+                            height: 1.3em;
+                            width: 30%;
+                            font-size:2em;
+                        }
+                        @media only screen and(min-width:760px){
+                            height: 2vw;
+                            width: 25%;
+                            font-size:1.6vw;
+                        }
+                        @media only screen and(min-width:960px){
+                            font-size:1.3vw;
+                            height: 1.5em;
+                        }
+                        @media only screen and(min-width:1280px){
+                            height: 1.5vw;
+                            width: 20%;
+                            font-size:1.2vw;
+                        }
+                        @media only screen and(min-width:2048px){
+                            height: 1vw;
+                            width: 20%;
+                            font-size:0.6vw;
+                        }
+
+                        &:hover{
+                        
+                            background-color: $tagsColorHover;
+                            opacity: 0.5;
+                            position: relative;
+                            top:-1px;
+                            opacity: 0.9;
+                        }
+                    }
+                }
+            }
+           
+
+        }
+        #OSTButtons{
+            height: 10%;
+            border-top:2px solid #4d4c4cb4;
+            .row{   
+                #addToBasket{
+
+                    display:flex;
+                    justify-content: start;
+                    height: 100%;
+                    min-width: 90px;
+                    button{
+                        white-space: nowrap;
+                    }
+                }
+                #closeWindow{
+                    min-width: 90px;
+                    display:flex;
+                    justify-content: end;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    #musicPlayer{
+        @extend %musicPlayer;
+        #audioBox{
+            width: 100%;
+            background-color: $contentBackground;
+        }
+    }
+#unloggedRow{
+    height: 100%;
+    
+    #sideBarContainer{
+        height: $pageHeight;
+        position: relative;
+        -webkit-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+        -moz-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+        box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+    }
+    
+    #contentContainer{
+        height: $pageHeight;
+
+        #ContentPage{
+            height: 250vh;
+            
+                #topTab{
+                    background-color: #1a181871;
+                    font-size: 1.4em;
+                    height: auto;
+                    -webkit-box-shadow:  inset -23px 19px 17px -23px rgba(62, 62, 62, 0.52), inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                    -moz-box-shadow:  inset -23px 19px 17px -23px rgba(62, 62, 62, 0.52), inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                    box-shadow:  inset -23px 19px 17px -23px rgba(62, 62, 62, 0.52), inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                    padding: 10px;
+                    .row{
+                        margin:0;
+                        #filter{
+                            height: 30%;
+                            font-size: 1.5vw;
+                            @media only screen and(max-width:600px){
+                                height: 30%;
+                            }
+        
+                            p{
+                                @media only screen  and (min-width:0){
+                                    font-size: 7vw;
+                                }
+                                @media only screen  and (min-width:360px){
+                                    font-size: 5vw;
+                                }
+                                @media only screen  and (min-width:760px){
+                                    font-size: 2vw;
+                                }
+ 
+                            }
+        
+                            #searchBox{
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 25px;
+                                text-align: center;
+
+                                @media only screen  and (min-width:0){
+                                    height: 4vw;
+                                }
+                                @media only screen  and (min-width:360px){
+                                    height: 3vw;
+                                }
+                                @media only screen  and (min-width:760px){
+                                    height: 3vw;
+                                }
+                                @media only screen  and (min-width:1024px){
+                                    height: 2.3vw;
+                                }
+                            }
+
+                        }
+
+                        #tagsBox{
+                            height: 50%;
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            
+                            #tagsBoxItems{
+                                height:100%;
+                                list-style-type: none;
+                                display: flex;
+                                justify-content: flex-start;
+                                flex-wrap: wrap;
+                                align-items: flex-end;
+                                // -ms-overflow-style: none; /* for Internet Explorer, Edge */
+                                // scrollbar-width: none; /* for Firefox */
+                                overflow-y: auto; 
+                                // Inset and body
+                                scrollbar-color: rgba(10, 10, 10, 0.541) #353535cb;
+                                    li{
+                                        color:#f9f9f9f9;
+                                        background-color: $tagsColor;
+                                        white-space:nowrap;
+                                        width: 15%;
+                                        margin:5px;
+                                        border-radius: 15px;
+                                        border:1px solid #0e0e0e3d;
+                                        transition: 0.2s;
+                                        float: left;
+                                        @extend %centerFlex;
+                                        -webkit-box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                        -moz-box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                        box-shadow: inset 1px -9px 5px -7px rgba(79, 79, 79, 1);
+                                        &:hover{
+                                            background-color: $tagsColorHover;
+                                            cursor: pointer;
+                                            -webkit-box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                            -moz-box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                            box-shadow: inset 1px -13px 5px -7px rgba(194, 202, 191, 1);
+                                        }
+                                    }
+                            }
+                            #tagsBoxItems::-webkit-scrollbar {
+                                // display: none;  
+                                background: red;
+                              }
+                              
+                        }   
+                    }
+                    
+                    #pickedTags{
+                        width: 100%;
+                        height: 10%;
+                        background-color: rgba(238, 3, 3, 0.212);
+                        color:#f9f9f9;
+                        -webkit-box-shadow:  inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                        -moz-box-shadow:  inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                        box-shadow:  inset 20px -18px 17px -13px rgba(27, 27, 27, 0.85);
+                        border-top:5px solid rgba(238, 3, 3, 0.089);;
+                        ul{
+                            list-style-type: none;
+                            width: 100%;
+                            height: 100%;
+                            padding:10px;
+                            li{
+                                width: auto;
+                                height: 15%;
+                                white-space:nowrap;
+                                
+                                @extend %centerFlex;
+                                background-color: $tagsColor;
+                                width: 10%;
+                                margin:5px;
+                                border-radius: 20px;
+                                border:1px solid #f9f9f94b;
+                                float: left;
+                                
+                                &:hover{
+                                    background-color: $tagsColorHover;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                       
+            }
+            // musicBox contains all songs
+            #musicBox{  
+                position: relative;
+                @include respectFont(3.5vw, 3vw, 2vw, 2vw, 1.4vw);
+                height: 100%;
+                
+                .row{
+                    // songContainer contains song boxes values
+                    .songContainer{
+                        background-color: $OSTBackground;
+                        // border:1px solid #f9f9f9cb;    
+                        border-radius: 20px;
+                        height: 30vh;
+                        .row{
+                            height: 100%;
+                            .musicIMG{
+                                position: relative;
+                                height: 100%;
+                                    img{
+                                        width: 100%;
+                                        height: 100%;
+                                        border-radius: 15px;
+                                        &:hover{
+                                            filter:blur(2px);
+                                            cursor: pointer;
+                                        }
+                                    }
+                                    .imgHover{
+                                        position: absolute;
+                                        bottom:1%;
+                                        right:1%;
+                                    }
+                            }
+
+                            .musicInfo{
+                                    .price{
+                                        height: 15%;
+                                        @include respectFont(4vw, 3.4vw, 2vw, 2vw, 1.5vw);
+                                    }
+                                .title{
+                                    color:#56b144;
+                                    overflow:hidden;
+                                    height: 35%;
+                                    line-height:3vw;    
+                                    @include respectFont(4vw, 3vw, 2vw, 1.5vw, 1.1vw);
+                                    @media only screen and(max-width:1024px){
+                                        height: 20%;
+                                    }
+                                }
+                                .desc{
+                                    overflow-x:hidden;
+                                    height: 35%;
+                                    @include respectFont(3vw, 2vw, 1.8vw, 1.2vw, 1vw);
+                                    line-height: 1.2vw;
+                                    @media only screen and(max-width:1024px){
+                                        line-height: 2.8vw;
+                                    }
+                                }
+                                .info{
+                                    height: 20%;
+                                    z-index: 20;
+                                    .row{
+                                        .author{
+                                            font-size:1vw;
+                                            @media only screen and(min-width:0){
+                                                font-size: 4vw;
+                                            }
+                                            @media only screen and(min-width:360px){
+                                                font-size: 3vw;
+                                            }
+                                            @media only screen and(min-width:760px){
+                                                font-size: 2vw;
+                                            }
+                                            @media only screen and(min-width:960px){
+                                                font-size:1.2vw;
+                                            }
+                                            @media only screen and(min-width:1300px){
+                                                font-size:1.1vw;
+                                            }
+                                        }
+
+                                        .buy{
+                                            border-left: 2px solid beige;
+                                            border-top: 2px solid beige;
+                                            border-bottom: 2px solid beige;
+
+                                            transition: 0.5s;
+                                            @extend %centerFlex;
+                                            @media only screen and(min-width:0){
+                                                font-size: 4vw;
+                                                line-height: 5vw;
+                                            }
+                                            @media only screen and(min-width:360px){
+                                                font-size: 4vw;
+                                                line-height: 5vw;
+                                            }
+                                            @media only screen and(min-width:760px){
+                                                font-size: 3vw;
+                                                line-height: 3.5vw;
+                                            }
+                                            @media only screen and(min-width:960px){
+                                                font-size:2vw;
+                                                line-height: 2.5vw;
+                                            }
+                                            @media only screen and(min-width:1300px){
+                                                font-size:1.3vw;
+                                                line-height: 2vw;
+                                            }
+                                            &:hover{
+                                                cursor: pointer;
+                                                border-radius: 10px 0 0 10px;
+                                                border-left: 2px solid #1a5201;
+                                                border-top: 2px solid beige;
+                                                border-bottom: 2px solid beige;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                             .tags{
+                                height: 20%;
+                                font-size:1vw;
+                                overflow-y: hidden; 
+                                width: 100%;
+                                
+                                .tagList > li{
+                                    background-color: $tagsColor;
+                                    height: 1.6em;
+                                    width: 20px;
+                                    margin:5px;
+                                    border-radius: 20px;
+                                    border:1px solid #f9f9f94b;
+                                    float: left;
+                                    @extend %centerFlex;
+                                    // background-color: rgba(15, 14, 14, 1);
+                                    // background-image: radial-gradient(circle, rgba(15, 14, 14, 1) 9%, rgba(28, 34, 28, 1) 93%);
+                                    
+                                    @media only screen and(min-width:0){
+                                        height: 2em;
+                                        width: 25%;
+                                        font-size:3vw;
+                                    }
+                                    @media only screen and(min-width:360px){
+                                        height: 1.3em;
+                                        width: 20%;
+                                        font-size:2em;
+                                    }
+                                    @media only screen and(min-width:760px){
+                                        height: 2vw;
+                                        width: 25%;
+                                        font-size:1.6vw;
+                                    }
+                                    @media only screen and(min-width:960px){
+                                        font-size:1.3vw;
+                                        height: 1.5em;
+                                    }
+                                    @media only screen and(min-width:1280px){
+                                        height: 1.5vw;
+                                        width: 20%;
+                                        font-size:1.2vw;
+                                    }
+                                    @media only screen and(min-width:2048px){
+                                        height: 1.2vw;
+                                        width: 20%;
+                                        font-size:0.8vw;
+                                    }
+
+                                    &:hover{
+                                        cursor: pointer;
+                                        background-color: $tagsColorHover;
+                                        opacity: 0.5;
+                                        position: relative;
+                                        top:-1px;
+                                        opacity: 0.9;
+                                    }
+                                }
+                            }
+                        }  
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+}
+.top{
+    height: 70%;
+}
+
+// POP up clicked OST with arrows right and

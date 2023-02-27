@@ -1,0 +1,167 @@
+@import '../../scss/_variables.scss';
+@import '../../scss/_mixins.scss';
+@import '../../scss/_keyframes.scss';
+@import '../../scss/_placeholders.scss';
+
+#deleteAlert{
+    position: absolute;
+    left:40%;
+    top:10%;
+    background-color: #272626;
+    background: rgb(29,29,29);
+    background: linear-gradient(148deg, rgba(29,29,29,0.8743698162858894) 0%, rgba(37,37,37,1) 48%, rgba(0,0,0,1) 100%);
+    width: 30vw;
+    border:2px solid #06060648;
+    height: 30vw;
+    z-index: 20;
+    font-size:2.5vw;
+    border-radius: 15px;
+    padding:10px;
+    min-width: 200px;
+    @include respectFont(3vw, 3vw, 2vw, 2vw, 1.8vw);
+    @media only screen and(max-width:760px) {
+        height: 35vh;
+    }
+    #buttons{
+        width: 100%;
+        height: 10%;
+        position: absolute;
+        bottom: 5%;
+        @media only screen and(max-width:768px) {
+            height: 20%;
+        }
+        @media only screen and(max-width:1680px) {
+            height: 15%;
+        }
+
+        button{
+            width: 40%;
+            height: 100%;
+        }
+        button:last-child{
+            position: absolute;
+            right:10%;
+        }
+    }
+ 
+}
+
+#myOSTWhole{
+    height: 100vh;
+    background: rgb(0,0,0);
+    background: $contentBackground;
+    position: relative;
+    font-family: 'Imbue', serif;
+    min-width: 400px;
+    #musicPlayer{
+        @extend %musicPlayer;
+        
+        
+
+        #audioBox{
+            width: 100%;
+            background-color: $contentBackground;
+        }
+    }
+    .row{
+        height: 100%;
+           #sideBarContainer{
+            -webkit-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            -moz-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+            height: 100%;
+        }
+     
+        .myOSTContainer{
+            height: 100%;
+
+            .row{
+                
+                .OST{
+                    height: 30%;
+                    background-color: #2424243a;
+                    .top{
+                        height: 20%;
+                    }
+                    .bot{
+                        height: 80%;
+
+                        .img{
+                            height: 100%;
+                            -webkit-box-shadow:  7px 14px 17px -4px rgba(0, 0, 0, 0.55);
+                            -moz-box-shadow:  7px 14px 17px -4px rgba(0, 0, 0, 0.55);
+                            box-shadow:  7px 14px 17px -4px rgba(0, 0, 0, 0.55);
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                opacity: 0.9;
+                                border-radius: 0 0 0 10px;
+                                &:hover{
+                                    filter:blur(2px);
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                        .info{
+                            height: 100%;
+                            .title{
+                                height: 50%;
+                                @include respectFont(4vw, 4vw, 3vw, 2vw, 1.5vw);
+                            }
+                            .desc{
+                                height: 50%;
+                                overflow-y: auto;
+                                -webkit-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+                                -moz-box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+                                box-shadow: inset -7px 1px 17px -4px rgba(0, 0, 0, 0.55);
+                            }
+                            .options{
+                                height: 25%;
+                                ul{
+                                    list-style-type: none;
+                                    
+                                    li{
+                                        float:left;
+                                        width: 20%;
+                                        @include respectFont(7vw, 4vw, 3vw, 2vw, 1.5vw);
+                                    }
+                                    li:nth-child(1){
+                                        &:hover{
+                                            cursor: pointer;
+                                            color: yellow;
+                                        }
+                                    }
+                                    li:nth-child(2){
+                                        margin-left:1vw;
+                                        &:hover{
+                                            cursor: pointer;
+                                            color:red;
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+               
+            }
+        }
+     
+    
+    }
+#modal{
+    width: 20vw;
+    height: 4vh;
+    position: fixed;
+    opacity: 1;
+    z-index: 5;
+    background-color: rgba(160, 21, 21, 0.548);
+    bottom:0;
+    right: 0;
+    @include respectFont(3vw, 2.5vw, 3vw, 2vw, 1.5vw);
+    border-radius: 20px 0 0 0 ;
+    @extend %centerFlex;
+    animation: modalAnimation 0.5s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+}
