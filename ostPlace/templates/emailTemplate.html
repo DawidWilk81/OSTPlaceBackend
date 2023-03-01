@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Imbue:opsz@10..100&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    body {
+    background-color: #f9f9f9;
+       font-family: 'Imbue', serif;
+    }
+
+    a    {
+    color: blue;
+    cursor:pointer;
+
+    }
+
+    a :hover{
+        color:lightblue;
+    }
+</style>
+
+<body>
+    <h3><p> Hello <b>{{ username }},</b> click right below to activate your account: </p></h3><br>
+    http://{{ domain }}{{token}}/
+    <h3><p> <b></b> Or click "check" right below </p></h3><br>
+    <a href="http://{{ domain }}{{ token }}">Check</a>
+</body>
+</html>
