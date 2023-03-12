@@ -357,7 +357,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
                 objects = Song.objects.filter(status=True).order_by('-date')
 
         # PAGINATE OBJECT
-        paginatedObject = Paginator(objects, 3)
+        paginatedObject = Paginator(objects, 9)
         page_array = paginatedObject.get_page(pageNumber)
 
         return page_array
@@ -426,7 +426,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
                     objects = Song.objects.filter(status=True).order_by('-date')
 
             # Now return what you've done
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             return page_array
 
@@ -446,7 +446,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
                 elif 'Date: newer first' in sortBy:
                     print('sort by DATE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True).order_by('-date')
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             return page_array
 
@@ -586,7 +586,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
                                                       price__lte=priceTo,
                                                       title__icontains=title).order_by('-date')
 
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             print('YOU WILL GET:', paginatedObject.object_list)
 
@@ -645,7 +645,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
             print('LEN OF SORTBY:', len(sortBy))
 
 
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             print(paginatedObject.object_list)
             return page_array
