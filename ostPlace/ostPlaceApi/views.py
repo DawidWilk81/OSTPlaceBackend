@@ -59,22 +59,25 @@ class GetSettingsAccountViewSet(viewsets.ModelViewSet):
         return account
 
 
-class ChangeUserAccountAvatarViewSet(viewsets.ModelViewSet):
-    queryset = UserAccount.objects.all().order_by('-id')
-    serializer_class = UserAccountUpdateSerializer
-    authentication_classes = (TokenAuthentication,)
-
-    @csrf_exempt
-    def update(self, request, *args, **kwargs):
-        print('----------------started')
-        avatar = self.request.data['avatar']
-        user = self.request.user
-        account = UserAccount.objects.get(user=user)
-        account.avatar.delete()
-        account.avatar = avatar
-        account.save()
-        response = {'message': 'User avatar has been changed'}
-        return Response(response, status=status.HTTP_200_OK)
+# class ChangeUserAccountAvatarViewSet(viewsets.ModelViewSet):
+#     queryset = UserAccount.objects.all().order_by('-id')
+#     serializer_class = UserAccountUpdateSerializer
+#     authentication_classes = (TokenAuthentication,)
+#
+#     @csrf_exempt
+#     def update(self, request, *args, **kwargs):
+#         print('----------------started')
+#         avatar = self.request.data['avatar']
+#         user = self.request.user
+#         account = UserAccount.objects.get(user=user)
+#         print(account.avatar)
+#         print('av', avatar)
+#         if 'OSTPlaceDefault.png' not in account.avatar:
+#             account.avatar.delete()
+#         account.avatar = avatar
+#         account.save()
+#         response = {'message': 'User avatar has been changed'}
+#         return Response(response, status=status.HTTP_200_OK)
 
 
 class ChangeUserPasswordViewSet(viewsets.ModelViewSet):
@@ -117,14 +120,17 @@ class UserAvatarViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         user = self.request.user.id
         print(user)
-        avatar = self.request.data['avatar']
         account = UserAccount.objects.get(user=user)
         print(account.avatar.path)
         if os.path.exists(account.avatar.path):
-            os.remove(account.avatar.path)
-        account.avatar = avatar
+            if "OSTPlaceDefault.png" in account.avatar.path:
+                pass
+            else:
+                os.remove(account.avatar.path)
+        else:
+            pass
+        account.avatar = self.request.data['avatar']
         account.save()
-        # return account
         response = {'message': 'User avatar has been changed'}
         return Response(response, status=status.HTTP_200_OK)
 
@@ -357,7 +363,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
                 objects = Song.objects.filter(status=True).order_by('-date')
 
         # PAGINATE OBJECT
-        paginatedObject = Paginator(objects, 3)
+        paginatedObject = Paginator(objects, 9)
         page_array = paginatedObject.get_page(pageNumber)
 
         return page_array
@@ -426,7 +432,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
                     objects = Song.objects.filter(status=True).order_by('-date')
 
             # Now return what you've done
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             return page_array
 
@@ -446,7 +452,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
                 elif 'Date: newer first' in sortBy:
                     print('sort by DATE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True).order_by('-date')
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             return page_array
 
@@ -586,7 +592,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
                                                       price__lte=priceTo,
                                                       title__icontains=title).order_by('-date')
 
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             print('YOU WILL GET:', paginatedObject.object_list)
 
@@ -644,8 +650,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
 
             print('LEN OF SORTBY:', len(sortBy))
 
-
-            paginatedObject = Paginator(objects, 3)
+            paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
             print(paginatedObject.object_list)
             return page_array
