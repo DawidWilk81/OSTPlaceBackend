@@ -3,12 +3,12 @@ from rest_framework import viewsets, status
 from .serializers import UserSerializer
 from django.core import serializers
 from rest_framework.authentication import TokenAuthentication
-from .models import Song, Tag, BasketOST, UserAccount
+from .models import Song, Tag, BasketOST, UserAccount, FreestyleRoom
 from .serializers import SongSerializer, TagsSerializer, TagsFilterSerializer,\
     SongUpdateSerializer, SongTagUpdateSerializer, BasketOSTSerializer, UserUpdateSerializer,\
     GetBasketOSTSerializer, GetUserAccountSerializer, UserAccountUpdateSerializer,\
     UserPasswordChangeSerializer, ActivateUserSerializer, ChangeEmailSerializer,\
-    SongCheckSerializer
+    SongCheckSerializer, RoomSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, action
 import os
@@ -46,6 +46,14 @@ class UserAccountViewSet(viewsets.ModelViewSet):
     def get_queryset(self, *args, **kwargs):
         acc = UserAccount.objects.filter(user=self.request.user.id)
         return acc
+
+
+# Viewset for game rooms
+class RoomViewSet(viewsets.ModelViewSet):
+    queryset = FreestyleRoom.objects.all().order_by('-id')
+    serializer_class = RoomSerializer
+    authentication_classes = (TokenAuthentication,)
+
 
 
 class GetSettingsAccountViewSet(viewsets.ModelViewSet):
@@ -727,7 +735,7 @@ class GetMyOSTSViewSet(viewsets.ModelViewSet):
         user = self.request.user
         pageNum = self.request.GET.get('pageNum')
         print(pageNum)
-        objects = Song.objects.filter(author=user)
+        objects = Song.objects.filter(author=user).order_by('-id')
         paginatedObjects = Paginator(objects, 2)
         return paginatedObjects.get_page(pageNum)
 
