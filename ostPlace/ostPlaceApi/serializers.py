@@ -3,7 +3,7 @@ from rest_framework import serializers, status
 from .email import send_email
 from django.core.mail import send_mail, BadHeaderError
 from rest_framework.authtoken.models import Token
-from .models import Song, Tag, BasketOST, UserAccount
+from .models import Song, Tag, BasketOST, UserAccount, FreestyleRoom
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.utils.http import urlsafe_base64_encode
@@ -17,7 +17,7 @@ class UserAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserAccount
-        fields = ['id', 'balance', 'user', 'avatar']
+        fields = ['id', 'balance', 'user', 'avatar', 'leaguePoints']
 
 
 class UserAccountUpdateSerializer(serializers.ModelSerializer):
@@ -25,6 +25,14 @@ class UserAccountUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ['id', 'balance', 'user', 'avatar']
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = UserAccount
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,15 +45,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile = validated_data.pop('profile')
-        user = User.objects.create_user(**validated_data)
-        user.profile = UserAccount.objects.create(user=user, **profile)
+        print(validated_data['email'])
+        if User.objects.filter(email=validated_data['email']) is not None:
+            print('i found user with the same email sir.')
+        else:
+            user = User.objects.create_user(**validated_data)
+            user.profile = UserAccount.objects.create(user=user, **profile)
 
-        # Create token and send email
-        Token.objects.create(user=user)
-        send_email(str(validated_data['email']), urlsafe_base64_encode(force_bytes(user.id)), user.username)
-        user.is_active = False
-        user.save()
-        return user
+            # Create token and send email
+            Token.objects.create(user=user)
+            send_email(str(validated_data['email']), urlsafe_base64_encode(force_bytes(user.id)), user.username)
+            user.is_active = False
+            user.save()
+            return user
 
 
 class GetUserAccountSerializer(serializers.HyperlinkedModelSerializer):

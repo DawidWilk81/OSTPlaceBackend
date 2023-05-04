@@ -50,6 +50,20 @@ class UserAccount(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, related_name='profile')
     avatar = models.ImageField(upload_to=upload_avatar, default='OSTPlaceDefault.png')
     balance = models.FloatField(default=0)
+    leaguePoints = models.PositiveIntegerField(default=0, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+class FreestyleRoom(models.Model):
+    users = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='roomUser', on_delete=models.CASCADE)
+    admins = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='roomAdmin', on_delete=models.CASCADE)
+    password = models.PositiveIntegerField(null=True, blank=True)
+    slots = models.PositiveIntegerField(default=5, )
+    title = models.CharField(max_length=128, default='Everyone are welcome')
+    # Need at least that much LP
+    requirement = models.PositiveIntegerField(default=0, )
 
     def __str__(self):
         return self.user.username
@@ -68,4 +82,6 @@ class BasketOST(models.Model):
 
     def __str__(self):
         return self.buyer.username
+
+
 
