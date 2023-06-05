@@ -324,11 +324,11 @@ class GetOSTViewSet(viewsets.ModelViewSet):
 
 
 class GetUnloggedOSTViewSet(viewsets.ModelViewSet):
-    queryset = Song.objects.all().order_by('-id')[:3]
+    queryset = Song.objects.all().order_by('-id')[:9]
     serializer_class = SongSerializer
 
     def get_queryset(self):
-        return Song.objects.filter(status=True).order_by('-id')[:3]
+        return Song.objects.filter(status=True).order_by('-id')[:9]
 
 
 class allSongsViewSet(viewsets.ModelViewSet):
@@ -355,6 +355,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
         pageNumber = self.request.GET.get('pageNum')
         print('PAGENumber:', pageNumber)
         objects = Song.objects.filter(status=True)
+        print('sortByLen', len(sortBy))
         # MAKE OBJECT
         if len(sortBy) > 0:
             print('SORTING search pagination MAAAAN:')
@@ -372,7 +373,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
 
         # PAGINATE OBJECT
         paginatedObject = Paginator(objects, 9)
-        page_array = paginatedObject.get_page(pageNumber)
+        page_array = paginatedObject.get_page(pageNumber) 
 
         return page_array
 
@@ -497,7 +498,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
 # przemyślenia powojenne: settings: sprawdzanie hasła - zalogowany nie filtruje po tytule i jak nie ma tagów
 # to jebla dostaje.
 
-# GET OST from Search Tab BY TAGS title price
+# Filter OSTS BY SIDE SEARCH ON HOME PAGE
 class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('-id')
     serializer_class = SongSerializer
@@ -542,37 +543,34 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
         print('TESTS:', queryCheck)
         print('TYPE:', type(queryCheck))
         print('len:', len(queryCheck))
-        objects = Song.objects.filter(status=True)
+
         # QUERY CHECK = PROCESSED ARRAY OF TAGS
         # GOT NO TAGS:
         if len(queryCheck) == 0:
-            print('TITLE TYPE:', type(title))
-            print('222')
-            if len(title) == 0:
+            if not title:
                 print('EMPTY TITLE')
                 print('sortBY: ')
                 if len(sortBy) > 0:
-                    print('SORTING search pagination MAAAAN:')
                     if 'Price Desc' in sortBy:
                         print('sort by PRICE-DESC')
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
-                                                      price__lte=priceTo).order_by('-price')
+                                                      price__lte=priceTo).order_by('-price').distinct()
                     if 'Price Asc' in sortBy:
                         print('sort by PRICE-ASC')
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
-                                                      price__lte=priceTo).order_by('price')
+                                                      price__lte=priceTo).order_by('price').distinct()
                     if 'Date: older first' in sortBy:
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
-                                                      price__lte=priceTo).order_by('date')
+                                                      price__lte=priceTo).order_by('date').distinct()
                     if 'Date: newer first' in sortBy:
                         print('sort by DATE-ASC')
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
-                                                      price__lte=priceTo).order_by('-date')
-            if len(title) != 0:
+                                                      price__lte=priceTo).order_by('-date').distinct()
+            if title:
                 print('NOT EMPTY TITLE ')
                 if len(sortBy) > 0:
                     print('SORTING search pagination MAAAAN:')
@@ -581,24 +579,36 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
                                                       price__lte=priceTo,
-                                                      title__icontains=title).order_by('-price')
+                                                      title__icontains=title).order_by('-price').distinct()
                     if 'Price Asc' in sortBy:
                         print('sort by PRICE-ASC')
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
                                                       price__lte=priceTo,
-                                                      title__icontains=title).order_by('price')
+                                                      title__icontains=title).order_by('price').distinct()
                     if 'Date: older first' in sortBy:
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
                                                       price__lte=priceTo,
-                                                      title__icontains=title).order_by('date')
+                                                      title__icontains=title).order_by('date').distinct()
                     if 'Date: newer first' in sortBy:
                         print('sort by DATE-ASC')
                         objects = Song.objects.filter(status=True,
                                                       price__gte=priceFrom,
                                                       price__lte=priceTo,
-                                                      title__icontains=title).order_by('-date')
+                                                      title__icontains=title).order_by('-date').distinct()
+                if not sortBy:
+                    print('SORTING search pagination MAAAAN:')
+                    objects = Song.objects.filter(status=True,
+                                                  price__gte=priceFrom,
+                                                  price__lte=priceTo,
+                                                  ).order_by('-price')
+                    if title:
+                        print('sort by PRICE-DESC')
+                        objects = Song.objects.filter(status=True,
+                                                      price__gte=priceFrom,
+                                                      price__lte=priceTo,
+                                                      title__icontains=title).order_by('-price')
 
             paginatedObject = Paginator(objects, 9)
             page_array = paginatedObject.get_page(pageNumber)
@@ -609,7 +619,8 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
         # GOT TAGS IN REQUEST
         elif len(queryCheck) > 0:
             print('SEARCH: WITH TAGS')
-            if title != '':
+            objects = Song.objects.filter(tags__in=queryCheck, status=True)
+            if title:
                 print('SEARCH WITH TAGS AND TITLE')
                 if len(sortBy) > 0:
                     print('SORTING search pagination MAAAAN:')
@@ -620,41 +631,41 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
                         print('sort by PRICE-DESC')
                         objects = Song.objects.filter(tags__in=queryCheck, status=True,
                                                       price__gte=priceFrom, price__lte=priceTo,
-                                                      title__icontains=title).order_by('-price')
+                                                      title__icontains=title).order_by('-price').distinct()
                     if 'Price Asc' in sortBy:
                         print('sort by PRICE-ASC')
                         objects = Song.objects.filter(tags__in=queryCheck, status=True,
                                                       price__gte=priceFrom, price__lte=priceTo,
-                                                      title__icontains=title).order_by('price')
+                                                      title__icontains=title).order_by('price').distinct()
                     if 'Date: older first' in sortBy:
                         objects = Song.objects.filter(tags__in=queryCheck, status=True,
                                                       price__gte=priceFrom, price__lte=priceTo,
-                                                      title__icontains=title).order_by('date')
+                                                      title__icontains=title).order_by('date').distinct()
                     if 'Date: newer first' in sortBy:
                         print('sort by DATE-ASC')
                         objects = Song.objects.filter(tags__in=queryCheck, status=True,
                                                       price__gte=priceFrom, price__lte=priceTo,
-                                                      title__icontains=title).order_by('-date')
+                                                      title__icontains=title).order_by('-date').distinct()
 
-            else:
+            if not title:
                 print('SEARCH WITH TAGS WITHOUT TITLE')
                 objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                              price__gte=priceFrom, price__lte=priceTo)
+                                              price__gte=priceFrom, price__lte=priceTo).distinct()
                 if 'Price Desc' in sortBy:
                     print('sort by PRICE-DESC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-price')
+                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-price').distinct()
                 if 'Price Asc' in sortBy:
                     print('sort by PRICE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('price')
+                                                  price__gte=priceFrom, price__lte=priceTo).order_by('price').distinct()
                 if 'Date: older first' in sortBy:
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('date')
+                                                  price__gte=priceFrom, price__lte=priceTo).order_by('date').distinct()
                 if 'Date: newer first' in sortBy:
                     print('sort by DATE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-date')
+                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-date').distinct()
 
             print('LEN OF SORTBY:', len(sortBy))
 
@@ -702,13 +713,14 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
         # GOT TAGS:
         if len(queryCheck) == 0:
             print('COUNT: NO TAGS')
-            if title != '':
-
+            print(title)
+            if title:
                 objects = Song.objects.filter(status=True,
-                                              price__gte=priceFrom, price__lte=priceTo, title__icontains=title).count()
-            if title == '':
+                                              price__gte=priceFrom, price__lte=priceTo,
+                                              title__icontains=str(title)).distinct().count()
+            if not title:
                 objects = Song.objects.filter(status=True,
-                                              price__gte=priceFrom, price__lte=priceTo).count()
+                                              price__gte=priceFrom, price__lte=priceTo).distinct().count()
             response = JsonResponse(objects, safe=False)
             return response
 
@@ -717,10 +729,11 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
             print('111')
             if title:
                 objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                              price__gte=priceFrom, price__lte=priceTo, title__icontains=title).count()
+                                              price__gte=priceFrom, price__lte=priceTo,
+                                              title__icontains=title).distinct().count()
             if not title:
                 objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                              price__gte=priceFrom, price__lte=priceTo).count()
+                                              price__gte=priceFrom, price__lte=priceTo).distinct().count()
             response = JsonResponse(objects, safe=False)
             return response
 
