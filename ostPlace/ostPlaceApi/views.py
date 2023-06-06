@@ -654,18 +654,22 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
                 if 'Price Desc' in sortBy:
                     print('sort by PRICE-DESC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-price').distinct()
+                                                  price__gte=priceFrom,
+                                                  price__lte=priceTo).order_by('-price').distinct()
                 if 'Price Asc' in sortBy:
                     print('sort by PRICE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('price').distinct()
+                                                  price__gte=priceFrom,
+                                                  price__lte=priceTo).order_by('price').distinct()
                 if 'Date: older first' in sortBy:
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('date').distinct()
+                                                  price__gte=priceFrom,
+                                                  price__lte=priceTo).order_by('date').distinct()
                 if 'Date: newer first' in sortBy:
                     print('sort by DATE-ASC')
                     objects = Song.objects.filter(tags__in=queryCheck, status=True,
-                                                  price__gte=priceFrom, price__lte=priceTo).order_by('-date').distinct()
+                                                  price__gte=priceFrom,
+                                                  price__lte=priceTo).order_by('-date').distinct()
 
             print('LEN OF SORTBY:', len(sortBy))
 
@@ -717,7 +721,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
             if title:
                 objects = Song.objects.filter(status=True,
                                               price__gte=priceFrom, price__lte=priceTo,
-                                              title__icontains=str(title)).distinct().count()
+                                              title__icontains=title).distinct().count()
             if not title:
                 objects = Song.objects.filter(status=True,
                                               price__gte=priceFrom, price__lte=priceTo).distinct().count()

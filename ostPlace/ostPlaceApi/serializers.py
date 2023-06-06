@@ -46,18 +46,15 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         profile = validated_data.pop('profile')
         print(validated_data['email'])
-        if User.objects.filter(email=validated_data['email']) is not None:
-            print('i found user with the same email sir.')
-        else:
-            user = User.objects.create_user(**validated_data)
-            user.profile = UserAccount.objects.create(user=user, **profile)
+        user = User.objects.create_user(**validated_data)
+        user.profile = UserAccount.objects.create(user=user, **profile)
 
-            # Create token and send email
-            Token.objects.create(user=user)
-            send_email(str(validated_data['email']), urlsafe_base64_encode(force_bytes(user.id)), user.username)
-            user.is_active = False
-            user.save()
-            return user
+        # Create token and send email
+        Token.objects.create(user=user)
+        send_email(str(validated_data['email']), urlsafe_base64_encode(force_bytes(user.id)), user.username)
+        user.is_active = False
+        user.save()
+        return user
 
 
 class GetUserAccountSerializer(serializers.HyperlinkedModelSerializer):
