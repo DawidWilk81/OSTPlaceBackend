@@ -65,6 +65,7 @@ class GetUserAccountSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'balance', 'user', 'avatar']
 
 
+
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

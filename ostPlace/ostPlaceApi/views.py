@@ -44,7 +44,15 @@ class UserAccountViewSet(viewsets.ModelViewSet):
 
     @csrf_exempt
     def get_queryset(self, *args, **kwargs):
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         acc = UserAccount.objects.filter(user=self.request.user.id)
+        customer = stripe.Customer.search(query="name:'{}'".format(self.request.user.username))
+        print("Customer:", customer)
+        if customer.data:
+            balance = customer.data[0].balance
+            acc.balance = balance
+        else:
+            acc.balance = 0
         return acc
 
 
@@ -344,7 +352,7 @@ class allSongsViewSet(viewsets.ModelViewSet):
 class OSTSPaginateViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('-id')
     serializer_class = SongSerializer
-    authentication_classes = (TokenAuthentication,  )
+    authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self):
         # Get sortBy option
