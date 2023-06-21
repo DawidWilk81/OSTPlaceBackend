@@ -344,7 +344,7 @@ class allSongsViewSet(viewsets.ModelViewSet):
 class OSTSPaginateViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('-id')
     serializer_class = SongSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,  )
 
     def get_queryset(self):
         # Get sortBy option
@@ -369,7 +369,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
                 objects = Song.objects.filter(status=True).order_by('date')
             if 'Date: newer first' in sortBy:
                 print('sort by DATE-ASC')
-                objects = Song.objects.filter(status=True).order_by('-date')
+                objects = Song.objects.filter(status=True).order_by('-date')    
 
         # PAGINATE OBJECT
         paginatedObject = Paginator(objects, 9)
