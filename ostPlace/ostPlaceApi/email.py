@@ -8,7 +8,7 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-
+from .models import Song
 
 def send_email(email, uid, username):
     # //EMAIL VARS
@@ -82,3 +82,26 @@ def alreadyChanged_email(email, username):
         except BadHeaderError:
             print('ERROR Header')
             return BadHeaderError
+
+
+def sendBoughtOST(email, username, osts):
+    subject = 'Your order from OSTPlace'
+    to_email = email
+    from_email = os.environ.get('EMAIL_HOST_USER')
+    template = render_to_string('sendBoughtOST.html', {'boughtItems': osts,
+                                                       'username': username,
+                                                       })
+    if subject and template and from_email:
+        try:
+            msg = EmailMultiAlternatives(subject, template, from_email, [to_email])
+            for i in range(len(osts)):
+                temp = Song.objects.get(title=osts.data[i].description[:-5])
+                msg.attach_file(temp.ost)
+
+            msg.send()
+            print('User got his order on email.')
+
+        except BadHeaderError:
+            print('ERROR Header')
+            return BadHeaderError
+

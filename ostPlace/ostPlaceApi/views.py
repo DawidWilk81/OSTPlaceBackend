@@ -26,7 +26,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 from django.utils.http import urlsafe_base64_decode
 from rest_framework.authtoken.models import Token
-from .email import change_email
+from .email import change_email, sendBoughtOST
 from django.contrib.auth import authenticate
 
 
@@ -61,7 +61,6 @@ class RoomViewSet(viewsets.ModelViewSet):
     queryset = FreestyleRoom.objects.all().order_by('-id')
     serializer_class = RoomSerializer
     authentication_classes = (TokenAuthentication,)
-
 
 
 class GetSettingsAccountViewSet(viewsets.ModelViewSet):
@@ -931,8 +930,8 @@ def i_payed_for_it(session):
     # W MOMENCIE JAK PŁATNOŚĆ SIĘ UDAŁA TO:
     # TODO: Make it workin baby!
     # print("---------Fulfilling order----------------")
-    #
     # print('Session: ', session)
+    customer = None
     line_items = stripe.checkout.Session.list_line_items(
         session.id, limit=5)
     print(line_items)
@@ -972,10 +971,11 @@ def i_payed_for_it(session):
         # Update user balance
         customer = User.objects.get(username=session.customer_details.name)
         print(customer.username)
-        OST.author = customer
         print('OST-Author: ', OST.author)
-        OST.status = False
-        OST.save()
+
+    print(customer)
+    print('customerEMAIL::{}'.format(customer.email))
+    sendBoughtOST(customer.email, customer.username, line_items)
     basket = BasketOST.objects.filter(buyer=customer)
     basket.delete()
 
@@ -1048,12 +1048,12 @@ class CheckEmail(viewsets.ModelViewSet):
     def post(self, request):
         email = self.request.data['email']
         print(email)
-        try:
-            user = User.objects.get(email=email)
+        user = User.objects.get(email=email)
+        if user:
             print(user)
             response = {'message': 'email Checked message and user exist'}
             return Response(response, status=status.HTTP_200_OK)
-        except:
+        if not user:
             response = {'message': 'email is free to use'}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
