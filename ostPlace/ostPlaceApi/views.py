@@ -1048,14 +1048,14 @@ class CheckEmail(viewsets.ModelViewSet):
     def post(self, request):
         email = self.request.data['email']
         print(email)
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email)
         if user:
             print(user)
             response = {'message': 'email Checked message and user exist'}
-            return Response(response, status=status.HTTP_200_OK)
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
         if not user:
             response = {'message': 'email is free to use'}
-            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+            return Response(response, status=status.HTTP_200_OK)
 
 
 class SendChangeEmail(viewsets.ModelViewSet):

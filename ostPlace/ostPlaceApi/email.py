@@ -96,8 +96,9 @@ def sendBoughtOST(email, username, osts):
             msg = EmailMultiAlternatives(subject, template, from_email, [to_email])
             for i in range(len(osts)):
                 temp = Song.objects.get(title=osts.data[i].description[:-5])
-                msg.attach_file(temp.ost)
-
+                print(temp.title)
+                msg.attach_file(temp.ost.path)
+            msg.attach_alternative(template, "text/html")
             msg.send()
             print('User got his order on email.')
 
