@@ -434,7 +434,7 @@ class SongFilterViewSet(viewsets.ModelViewSet):
         if not queryCheck:
             print('22')
             # Now sort the stuff
-            if len(sortBy) > 0:
+            if sortBy:
                 if 'Price Desc' in sortBy:
                     print('sort by PRICE-DESC')
                     objects = Song.objects.filter(status=True).order_by('-price')
@@ -484,26 +484,23 @@ class SongFilterViewSet(viewsets.ModelViewSet):
         if tags:
             check = tags.split(',')
 
-        # Make magic with tags(append queryCheck with tags that i got from tags id's)
-        for i in range(len(check)):
-            x = get_object_or_404(Tag.objects.filter(name=check[i]))
-            queryCheck.append(int(x.id))
-            print(Song.objects.filter(tags__in=queryCheck))
+            # Make magic with tags(append queryCheck with tags that i got from tags id's)
+            for i in range(len(check)):
+                x = get_object_or_404(Tag.objects.filter(name=check[i]))
+                queryCheck.append(int(x.id))
+                print(Song.objects.filter(tags__in=queryCheck))
 
         print('QUERY', queryCheck)
-        if queryCheck is not None or len(queryCheck) != 0:
+        if queryCheck:
             objects = Song.objects.filter(tags__in=queryCheck, status=True).count()
             response = JsonResponse(objects, safe=False)
             return response
 
-        else:
+        if not queryCheck:
             objects = Song.objects.filter(status=True).order_by('-id').count()
             response = JsonResponse(objects, safe=False)
             return response
 
-
-# przemyślenia powojenne: settings: sprawdzanie hasła - zalogowany nie filtruje po tytule i jak nie ma tagów
-# to jebla dostaje.
 
 # Filter OSTS BY SIDE SEARCH ON HOME PAGE
 class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
@@ -707,7 +704,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
 
         # SPLIT THE TAGS
         check = []
-        if len(tags) > 0:
+        if tags:
             check = tags.split(',')
 
             # Make magic with tags(append queryCheck with tags that i got from tags id's)
@@ -722,7 +719,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
 
         # QUERY CHECK = PROCESSED ARRAY OF TAGS
         # GOT TAGS:
-        if len(queryCheck) == 0:
+        if not queryCheck:
             print('COUNT: NO TAGS')
             print(title)
             if title:
@@ -736,7 +733,7 @@ class OSTSPaginateSearchViewSet(viewsets.ModelViewSet):
             return response
 
         # GOT NO TAGS IN REQUEST
-        elif len(queryCheck) > 0:
+        elif queryCheck:
             print('111')
             if title:
                 objects = Song.objects.filter(tags__in=queryCheck, status=True,
