@@ -9,8 +9,9 @@ from .serializers import SongSerializer, TagsSerializer, TagsFilterSerializer,\
     GetBasketOSTSerializer, GetUserAccountSerializer, UserAccountUpdateSerializer,\
     UserPasswordChangeSerializer, ActivateUserSerializer, ChangeEmailSerializer,\
     SongCheckSerializer, RoomSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, action
+
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import api_view, action, permission_classes
 import os
 import stripe
 from rest_framework.response import Response
@@ -40,9 +41,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserAccountViewSet(viewsets.ModelViewSet):
     queryset = UserAccount.objects.all().order_by('-id')
     serializer_class = GetUserAccountSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = [TokenAuthentication,]
 
-    @csrf_exempt
     def get_queryset(self, *args, **kwargs):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         acc = UserAccount.objects.filter(user=self.request.user.id)
@@ -100,7 +100,6 @@ class ChangeUserPasswordViewSet(viewsets.ModelViewSet):
     serializer_class = UserPasswordChangeSerializer
     authentication_classes = (TokenAuthentication,)
 
-    @csrf_exempt
     def update(self, request, *args, **kwargs):
         print('----------------started')
         print(self.request.data['replacePassword,'])
@@ -118,8 +117,9 @@ class ChangeUserPasswordViewSet(viewsets.ModelViewSet):
             response = {'message': 'PASSWORD == OLDPASSWORD OR > 30 '}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
         elif oldPassword != newPassword and len(newPassword) <= 30:
-            user.password = newPassword
+            user.set_password(newPassword)
             user.save()
+            print(user.username)
             print(user.password)
             response = {'message': 'User password has been changed'}
             return Response(response, status=status.HTTP_200_OK)
@@ -131,7 +131,6 @@ class UserAvatarViewSet(viewsets.ModelViewSet):
     serializer_class = GetUserAccountSerializer
     authentication_classes = (TokenAuthentication,)
 
-    @csrf_exempt
     def update(self, request, *args, **kwargs):
         user = self.request.user.id
         print(user)
@@ -155,7 +154,6 @@ class OtherUserAccountViewSet(viewsets.ModelViewSet):
     serializer_class = GetUserAccountSerializer
     authentication_classes = (TokenAuthentication,)
 
-    @csrf_exempt
     def get_queryset(self, *args, **kwargs):
         username = self.request.GET.get('username')
         user = User.objects.get(username=username)
@@ -174,7 +172,6 @@ class UserPasswordViewSet(viewsets.ModelViewSet):
 class TagsViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
-
 
 class TagsFilterViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
@@ -333,7 +330,9 @@ class GetOSTViewSet(viewsets.ModelViewSet):
 class GetUnloggedOSTViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('-id')[:9]
     serializer_class = SongSerializer
+    permission_classes = [AllowAny]
 
+    @csrf_exempt
     def get_queryset(self):
         return Song.objects.filter(status=True).order_by('-id')[:9]
 
@@ -352,6 +351,7 @@ class OSTSPaginateViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('-id')
     serializer_class = SongSerializer
     authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         # Get sortBy option
@@ -882,6 +882,8 @@ def stripe_config(request):
 
 
 class StripeCheckoutSessionViewSet(APIView):
+    authentication_classes = [TokenAuthentication,]
+
     def post(self, request, *args, **kwargs):
         lineItemsDict = []
         domain_url = 'http://localhost:4200/'
@@ -889,7 +891,7 @@ class StripeCheckoutSessionViewSet(APIView):
         basket = self.request.data['products']
         print(basket)
         basket = basket.split(',')
-        getted= Song.objects.filter(id__in=basket)
+        getted = Song.objects.filter(id__in=basket)
         customer = stripe.Customer.search(query="name:'{}'".format(self.request.user))
         print(customer)
 

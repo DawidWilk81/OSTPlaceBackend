@@ -98,8 +98,8 @@ def sendBoughtOST(email, username, osts):
                 temp = Song.objects.get(title=osts.data[i].description[:-5])
                 print(temp.title)
                 msg.attach_file(temp.ost.path)
-            msg.attach_alternative(template, "text/html")
-            msg.send()
+                msg.attach_alternative(template, "text/html")
+                msg.send()
             print('User got his order on email.')
 
         except BadHeaderError:

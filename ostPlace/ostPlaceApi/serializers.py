@@ -57,6 +57,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+
+
 class GetUserAccountSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
 
@@ -77,6 +79,7 @@ class UserPasswordChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'password']
+
 
 
 class ActivateUserSerializer(serializers.ModelSerializer):
